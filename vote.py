@@ -17,11 +17,15 @@ def run(playwright: Playwright) -> None:
     iframe_locator = page.frame_locator(r'iframe[title="Embedded reader poll - Fans Choice: Who is Ventura County\'s No. 1 boys soccer player?"]')
     iframe_locator.get_by_label('Cesar Fonseca, Del Sol').click()
     iframe_locator.get_by_role("button").click()
-    print("voted")
     time.sleep(1)
     browser.close()
 
 
+count = 0
 while True:
-    with sync_playwright() as playwright:
-        run(playwright)
+    for _ in range(10):
+        with sync_playwright() as playwright:
+            run(playwright)
+        count += 1
+        print(f"Votes: {count}", end="\r")
+    time.sleep(300)
