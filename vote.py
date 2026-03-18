@@ -3,7 +3,7 @@ import time
 
 GIRLS_URL = "https://www.vcstar.com/story/sports/high-school/2026/03/11/vote-for-the-top-high-school-girls-soccer-player-in-the-area/89103016007/"
 def run(playwright: Playwright) -> None:
-    browser = playwright.chromium.launch(headless=False)
+    browser = playwright.chromium.launch()
     context = browser.new_context()
     page = context.new_page()
     try:
@@ -13,6 +13,7 @@ def run(playwright: Playwright) -> None:
     page.mouse.wheel(0, 1000)
     time.sleep(.5)
     page.mouse.wheel(0, 1000)
+    page.keyboard.press("Escape")
     iframe_locator = page.frame_locator(r'iframe[title="Embedded reader poll - Fans Choice: Who is Ventura County\'s No. 1 girls soccer player?"]')
     iframe_locator.get_by_label('Carmen Sanchez, Del Sol').click()
     iframe_locator.get_by_role("button").click()
