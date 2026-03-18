@@ -1,21 +1,20 @@
 from playwright.sync_api import sync_playwright, Playwright, TimeoutError
 import time
 
-
+GIRLS_URL = "https://www.vcstar.com/story/sports/high-school/2026/03/11/vote-for-the-top-high-school-girls-soccer-player-in-the-area/89103016007/"
 def run(playwright: Playwright) -> None:
-    browser = playwright.chromium.launch()
+    browser = playwright.chromium.launch(headless=False)
     context = browser.new_context()
     page = context.new_page()
     try:
-        page.goto("https://www.vcstar.com/story/sports/high-school/2026/02/03/vote-for-the-top-boys-soccer-player-in-the-area/88497911007/",
-                  timeout=2000)
+        page.goto(GIRLS_URL, timeout=2000)
     except TimeoutError:
         pass
     page.mouse.wheel(0, 1000)
     time.sleep(.5)
     page.mouse.wheel(0, 1000)
-    iframe_locator = page.frame_locator(r'iframe[title="Embedded reader poll - Fans Choice: Who is Ventura County\'s No. 1 boys soccer player?"]')
-    iframe_locator.get_by_label('Cesar Fonseca, Del Sol').click()
+    iframe_locator = page.frame_locator(r'iframe[title="Embedded reader poll - Fans Choice: Who is Ventura County\'s No. 1 girls soccer player?"]')
+    iframe_locator.get_by_label('Carmen Sanchez, Del Sol').click()
     iframe_locator.get_by_role("button").click()
     time.sleep(1)
     browser.close()
